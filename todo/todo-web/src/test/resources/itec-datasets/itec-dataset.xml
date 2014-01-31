@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<dataset>
+
+	<ITEC_USERS USERNAME="admin" PASSWORD="admin" ENABLED="1" />
+
+	<!-- ITEC AUTHORITIES -->
+	<ITEC_AUTHORITIES USERNAME="admin" AUTHORITY="ROLE_USER" />
+
+	
+
+</dataset>
+

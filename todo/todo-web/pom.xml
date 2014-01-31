@@ -1,0 +1,196 @@
+<?xml version="1.0"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+    	<groupId>com.mtt.ken</groupId>
+    	<artifactId>todo</artifactId>
+    	<version>1.0-SNAPSHOT</version>
+  	</parent>
+	<artifactId>todo-web</artifactId>
+	<version>1.0.0-SNAPSHOT</version>
+	<packaging>war</packaging>
+	<name>todo-web</name>
+	<url>http://maven.apache.org</url>
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<h2.version>1.3.175</h2.version>
+	</properties>
+	<dependencies>
+	
+	   <dependency>
+            <groupId>com.mtt.ken</groupId>
+  			<artifactId>todo-core</artifactId>
+ 			 <version>1.0-SNAPSHOT</version>
+        </dependency>
+	    <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-jpa</artifactId>
+        </dependency>
+
+		<dependency>
+			<groupId>org.codehaus.jackson</groupId>
+			<artifactId>jackson-mapper-asl</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>javax.transaction</groupId>
+			<artifactId>jta</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>javassist</groupId>
+			<artifactId>javassist</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.security.oauth</groupId>
+			<artifactId>spring-security-oauth2</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-tx</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-web</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-webmvc</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-orm</artifactId>
+			<exclusions>
+				<exclusion>
+					<artifactId>spring-tx</artifactId>
+					<groupId>org.springframework</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-config</artifactId>
+		</dependency>
+
+		<dependency>
+			<artifactId>spring-security-core</artifactId>
+			<groupId>org.springframework.security</groupId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-web</artifactId>
+		</dependency>
+		
+		<!-- Hibernate -->
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-entitymanager</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+        </dependency>
+
+	</dependencies>
+
+	<build>
+		<finalName>todo</finalName>
+		<plugins>
+
+
+			<plugin>
+				<groupId>org.mortbay.jetty</groupId>
+				<artifactId>jetty-maven-plugin</artifactId>
+				<dependencies>
+					<dependency>
+						<groupId>commons-dbcp</groupId>
+						<artifactId>commons-dbcp</artifactId>
+						<version>1.4</version>
+					</dependency>
+					<dependency>
+						<groupId>com.h2database</groupId>
+						<artifactId>h2</artifactId>
+						<version>${h2.version}</version>
+					</dependency>
+				</dependencies>
+				<configuration>
+					<jettyConfig>src/main/resources/${todo.env}/jetty-ds-dev.xml</jettyConfig>
+					<webApp>
+						<contextPath>/todo</contextPath>
+					</webApp>
+					<stopPort>8081</stopPort>
+					<stopKey>STOP</stopKey>
+					<connectors>
+						<connector implementation="org.eclipse.jetty.server.nio.SelectChannelConnector">
+							<port>8080</port>
+							<maxIdleTime>3600000</maxIdleTime>
+						</connector>
+					</connectors>
+					<systemProperties>
+						<systemProperty>
+							<name>todo.env</name>
+							<value>local</value>
+						</systemProperty>
+						<systemProperty>
+							<name>todo.url</name>
+							<value>${todo.url}</value>
+						</systemProperty>
+						<systemProperty>
+							<name>todo.username</name>
+							<value>${todo.username}</value>
+						</systemProperty>
+						<systemProperty>
+							<name>todo.password</name>
+							<value>${todo.password}</value>
+						</systemProperty>
+					</systemProperties>
+			</configuration>
+		</plugin>
+	</plugins>
+
+	</build>
+	<profiles>
+		<profile>
+			<id>local</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+              <todo.env>local</todo.env>
+              <todo.url>jdbc:h2:data/todo-local;MODE=Oracle;IFEXISTS=TRUE;AUTO_SERVER=TRUE</todo.url>
+			  <todo.username>sa</todo.username>
+			  <todo.password></todo.password>
+			</properties>
+		</profile>
+		<profile>
+			<id>dev</id>
+			<properties>
+				<todo.env>dev</todo.env>
+			</properties>
+		</profile>
+		<profile>
+			<id>sit</id>
+			<properties>
+				<todo.env>sit</todo.env>
+			</properties>
+		</profile>
+	</profiles>
+</project>

@@ -1,0 +1,33 @@
+<div>
+	<div class="navbar-inner clearfix">
+		<h4 class="text-muted">
+			Manage Todo List <a href="#addItem" data-toggle="modal"
+				class="btn btn-primary pull-right"><i class="icon-plus"> </i>Add</a>
+		</h4>
+	</div>
+
+	<hr>
+
+	<table class="table table-striped">
+		<thead>
+			<tr>
+				<th>Description</th>
+				<th>Created</th>
+			</tr>
+		</thead>
+		<tr ng-repeat="item in items">
+			<td>{{item.description}}</td>
+			<td>{{item.creationTime}}</td>
+			<td><a href="#editItem" data-toggle="modal"
+				ng-click="setEditable(item)"><i
+					class="icon-edit icon-large text-info"></i></a></td>
+			<td><a href="#" ng-click="delete(item.id)" prevent-default><i
+					class="icon-trash icon-large text-danger"></i></a></td>
+</tr>
+	</table>
+	<div ng-show="items.length == 0"
+		ng-include="'./bin/partials/loading.htm'"></div>
+
+	<div ng-include="'./bin/partials/dialogs/add-item.htm'"></div>
+	<div ng-include="'./bin/partials/dialogs/edit-item.htm'"></div>
+</div>

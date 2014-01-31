@@ -1,0 +1,8 @@
+Design decisions
+DTO or not.
+I could have applied an Item DTO for web to service layer, but 
+as the ui makes use of all the attributes of an item there was no real reason for this overhead
+
+
+ORM framework.
+I decided to try out sping data 'respository 'here for the DAO implementation 

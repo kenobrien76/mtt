@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:jee="http://www.springframework.org/schema/jee"
+	xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+	xsi:schemaLocation="http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-3.2.xsd
+		http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-3.2.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+
+    <!-- JNDI DataSource for J2EE environments -->
+   <jee:jndi-lookup id="dataSource" jndi-name="jdbc/todoDB" resource-ref="true"/>
+
+
+<jdbc:initialize-database data-source="dataSource">
+  <jdbc:script location="classpath:scripts/users.sql"/>
+  <jdbc:script location="classpath:scripts/roles.sql"/>
+</jdbc:initialize-database>
+
+
+
+</beans>
