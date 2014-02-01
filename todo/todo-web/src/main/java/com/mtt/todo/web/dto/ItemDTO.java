@@ -4,7 +4,10 @@ package com.mtt.todo.web.dto;
 import java.util.Date;
 import java.util.List;
 
+import org.codehaus.jackson.map.annotate.JsonSerialize;
+
 import com.mtt.core.model.Item;
+import com.mtt.todo.web.json.JsonDateSerializer;
 
 
 public class ItemDTO {
@@ -64,6 +67,7 @@ public class ItemDTO {
 		this.userId = userId;
 	}
 
+	@JsonSerialize(using = JsonDateSerializer.class)
 	public Date getCreationTime() {
 		return creationTime;
 	}

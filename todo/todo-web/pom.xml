@@ -18,6 +18,27 @@
 	</properties>
 	<dependencies>
 	
+	<dependency>
+	<groupId>org.hamcrest</groupId>
+	<artifactId>hamcrest-all</artifactId>
+	<scope>test</scope>
+	<version>1.3</version>
+</dependency>
+	
+	
+	<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-core</artifactId>
+			<version>2.2.2</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>2.2.2</version>
+		</dependency>
+	
+	
 	   <dependency>
             <groupId>com.mtt.ken</groupId>
   			<artifactId>todo-core</artifactId>
@@ -175,7 +196,7 @@
 			</activation>
 			<properties>
               <todo.env>local</todo.env>
-              <todo.url>jdbc:h2:data/todo-local;MODE=Oracle;IFEXISTS=TRUE;AUTO_SERVER=TRUE</todo.url>
+              <todo.url>jdbc:h2:todo-db/todo-local;MODE=Oracle;AUTO_SERVER=TRUE</todo.url>
 			  <todo.username>sa</todo.username>
 			  <todo.password></todo.password>
 			</properties>
