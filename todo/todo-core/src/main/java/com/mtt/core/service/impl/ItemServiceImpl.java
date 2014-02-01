@@ -11,7 +11,9 @@ import com.mtt.core.repository.ItemRepository;
 import com.mtt.core.repository.UserRepository;
 import com.mtt.core.service.ItemService;
 import com.mtt.core.service.exception.ItemNotFoundException;
+import com.mtt.core.service.exception.UserNotFoundException;
 import com.mtt.core.model.Item;
+import com.mtt.core.model.User;
 
 @Service("itemService")
 public class ItemServiceImpl implements ItemService {
@@ -47,8 +49,8 @@ public class ItemServiceImpl implements ItemService {
 	}
 
 	@Override
-	public List<Item> findAllForUser(final String userId) {
-		return itemRepository.findByUser(userRepository.findOne(userId));
+	public List<Item> findAllForUser(final User user) {
+		return itemRepository.findByUser(user);
 	}
 
 	@Transactional(value="transactionManager",rollbackFor=Throwable.class)

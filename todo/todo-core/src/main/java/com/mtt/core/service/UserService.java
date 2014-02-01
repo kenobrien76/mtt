@@ -2,6 +2,7 @@ package com.mtt.core.service;
 
 import com.mtt.core.model.User;
 import com.mtt.core.service.exception.ItemNotFoundException;
+import com.mtt.core.service.exception.UserNotFoundException;
 
 public interface UserService {
 	
@@ -18,7 +19,7 @@ public interface UserService {
 	 * @param username
 	 * @return
 	 */
-	User findUser(final String username);
+	User findUser(final String username) throws UserNotFoundException;
 	
 	
 	/**

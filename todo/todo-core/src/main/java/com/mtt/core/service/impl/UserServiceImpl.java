@@ -7,6 +7,7 @@ import com.mtt.core.model.User;
 import com.mtt.core.repository.UserRepository;
 import com.mtt.core.service.UserService;
 import com.mtt.core.service.exception.ItemNotFoundException;
+import com.mtt.core.service.exception.UserNotFoundException;
 @Service("userService")
 public class UserServiceImpl implements UserService {
 	
@@ -19,8 +20,15 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public User findUser(final String username) {
-		return userRepository.findOne(username);
+	public User findUser(final String username)  throws UserNotFoundException{
+		
+		final User user = userRepository.findOne(username);
+		if(user != null){
+			return user;
+		}else{
+			throw new UserNotFoundException();
+		}
+		
 	}
 
 

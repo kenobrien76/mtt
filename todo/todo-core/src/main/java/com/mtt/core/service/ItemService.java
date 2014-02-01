@@ -3,7 +3,9 @@ package com.mtt.core.service;
 import java.util.List;
 
 import com.mtt.core.model.Item;
+import com.mtt.core.model.User;
 import com.mtt.core.service.exception.ItemNotFoundException;
+import com.mtt.core.service.exception.UserNotFoundException;
 
 public interface ItemService {
 	
@@ -34,7 +36,7 @@ public interface ItemService {
 	 * 
 	 * @return
 	 */
-	List<Item> findAllForUser(final String userId);
+	List<Item> findAllForUser(final User user);
 	
 	
 	/**
