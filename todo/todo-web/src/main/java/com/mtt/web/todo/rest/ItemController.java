@@ -41,8 +41,12 @@ public class ItemController {
 	@RequestMapping(method = RequestMethod.POST)
 	@Transactional(value="transactionManager",rollbackFor=Throwable.class)
 	public ResponseEntity<ItemDTO> add(HttpSession session,@RequestBody ItemDTO itemDto){
-		return new ResponseEntity<ItemDTO>(fromItem(itemService.create(toItem(itemDto),
-								(String)session.getAttribute("username"))),HttpStatus.CREATED);
+		try {
+			return new ResponseEntity<ItemDTO>(fromItem(itemService.create(toItem(itemDto),
+										userService.findUser((String)session.getAttribute("username")))),HttpStatus.CREATED);
+		} catch (UserNotFoundException e) {
+		}
+		return new ResponseEntity<ItemDTO>(HttpStatus.NOT_FOUND);
 	}
 	
 
@@ -72,7 +76,7 @@ public class ItemController {
 
 		try{
 			return new ResponseEntity<ItemDTO>(fromItem(
-						itemService.deleteById(Long.valueOf(itemId))),HttpStatus.OK);
+						itemService.delete(Long.valueOf(itemId))),HttpStatus.OK);
 		}catch(ItemNotFoundException infe){
 			 //logging
 		}
