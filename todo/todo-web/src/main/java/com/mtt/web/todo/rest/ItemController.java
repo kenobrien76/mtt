@@ -9,6 +9,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -39,18 +40,17 @@ public class ItemController {
 	
 	@RequestMapping(method = RequestMethod.POST)
 	@Transactional(value="transactionManager",rollbackFor=Throwable.class)
-	public ResponseEntity<ItemDTO> add(HttpServletRequest request, 
-	        HttpServletResponse response,@RequestBody ItemDTO itemDto){
+	public ResponseEntity<ItemDTO> add(HttpSession session,@RequestBody ItemDTO itemDto){
 		return new ResponseEntity<ItemDTO>(fromItem(itemService.create(toItem(itemDto),
-				(String)request.getSession().getAttribute("username"))),HttpStatus.CREATED);
+								(String)session.getAttribute("username"))),HttpStatus.CREATED);
 	}
 	
 
 	
 	
 	@RequestMapping(method = RequestMethod.PUT, value = "/{itemId}")
-	public ResponseEntity<ItemDTO>  updateDescription(HttpServletRequest request, 
-	        HttpServletResponse response,@RequestBody ItemDTO itemDTO,@PathVariable String itemId){
+	public ResponseEntity<ItemDTO>  updateDescription(
+				@RequestBody ItemDTO itemDTO,@PathVariable String itemId){
 
 		try{
 			
@@ -83,14 +83,12 @@ public class ItemController {
 	
 	@RequestMapping(method = RequestMethod.GET)
 	@Transactional(value="transactionManager",rollbackFor=Throwable.class, readOnly=true)
-	public ResponseEntity<List<ItemDTO>> read(HttpServletRequest request, 
-	        HttpServletResponse response) {
+	public ResponseEntity<List<ItemDTO>> read(HttpSession session) {
 		try {
 			return new ResponseEntity<List<ItemDTO>>(
 					fromItems( 
 								itemService.findAllForUser(
-											userService.findUser(
-														(String)request.getSession().getAttribute("username"))),
+											userService.findUser((String)session.getAttribute("username"))),
 																	new ArrayList<ItemDTO>()),
 																					HttpStatus.OK
 																												);

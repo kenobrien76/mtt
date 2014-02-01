@@ -4,6 +4,7 @@ import static com.mtt.todo.web.dto.UserDTO.fromUser;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -25,11 +26,11 @@ public class UserController {
 	
 	@RequestMapping(value="/users/current", method = RequestMethod.GET)
 	@Transactional(value="transactionManager",rollbackFor=Throwable.class, readOnly=true)
-	public ResponseEntity<UserDTO> getUser(HttpServletRequest request, 
-	        HttpServletResponse response){
+	public ResponseEntity<UserDTO> getUser(HttpSession session){
         try {
         	return new ResponseEntity<UserDTO>(
-        			fromUser(userService.findUser((String)request.getSession().getAttribute("username"))),
+        			fromUser(userService.findUser(
+        						(String)session.getAttribute("username"))),
         					HttpStatus.OK);
 			
 		} catch (UserNotFoundException e) {
