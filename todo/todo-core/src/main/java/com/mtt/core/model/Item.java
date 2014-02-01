@@ -39,6 +39,18 @@ public class Item implements Serializable {
 	public Item() {}
 	
 	
+	
+	
+	public Item(Long id, String description, User user) {
+		super();
+		this.id = id;
+		this.description = description;
+		this.user = user;
+	}
+
+
+
+
 	public String getDescription() {
 		return description;
 	}

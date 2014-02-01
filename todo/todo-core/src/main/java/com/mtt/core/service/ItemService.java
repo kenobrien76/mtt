@@ -14,7 +14,7 @@ public interface ItemService {
 	 * @param item
 	 * @return
 	 */
-	Item create(final Item item, final String userId);
+	Item create(final Item item, final User user);
 	
 	
 	/**
@@ -44,13 +44,13 @@ public interface ItemService {
 	 * @param id
 	 * @return
 	 */
-	Item findById(final Long id) throws ItemNotFoundException;
+	Item find(final Long id);
 	
 	/**
 	 * 
 	 * @param id
 	 * @return
 	 */
-	Item deleteById(final Long id)  throws ItemNotFoundException;
+	Item delete(final Long id)  throws ItemNotFoundException;
 
 }

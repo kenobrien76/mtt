@@ -7,13 +7,12 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.mtt.core.model.Item;
+import com.mtt.core.model.User;
 import com.mtt.core.repository.ItemRepository;
 import com.mtt.core.repository.UserRepository;
 import com.mtt.core.service.ItemService;
 import com.mtt.core.service.exception.ItemNotFoundException;
-import com.mtt.core.service.exception.UserNotFoundException;
-import com.mtt.core.model.Item;
-import com.mtt.core.model.User;
 
 @Service("itemService")
 public class ItemServiceImpl implements ItemService {
@@ -26,8 +25,8 @@ public class ItemServiceImpl implements ItemService {
 
 
 	@Override
-	public Item create(final Item item, final String userId) {
-		item.setUser(userRepository.findOne(userId));
+	public Item create(final Item item, final User user) {
+		item.setUser(user);
 		return itemRepository.save(item);
 	}
 
@@ -37,16 +36,22 @@ public class ItemServiceImpl implements ItemService {
 	}
 
 	@Override
-	public Item findById(final Long id) throws ItemNotFoundException {
-		return itemRepository.findOne(id);
+	public Item find(final Long itemId){
+		return itemRepository.findOne(itemId);
 	}
 
+	@Transactional(rollbackFor = ItemNotFoundException.class)
 	@Override
-	public Item deleteById(Long id) throws ItemNotFoundException {
-		final Item item = itemRepository.findOne(id);
-		itemRepository.delete(id);
-		return item;
+	public Item delete(Long itemId) throws ItemNotFoundException {
+		final Item deleted = itemRepository.findOne(itemId);
+		if(deleted == null){
+			throw new ItemNotFoundException();
+		}
+		itemRepository.delete(deleted);
+		return deleted;
 	}
+	
+	
 
 	@Override
 	public List<Item> findAllForUser(final User user) {
